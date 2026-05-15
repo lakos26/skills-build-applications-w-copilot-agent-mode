@@ -5,12 +5,18 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     team = models.CharField(max_length=50)
     role = models.CharField(max_length=50)
+    
+    class Meta:
+        db_table = 'users'
 
 class Team(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    members = models.JSONField(default=list)
+    members = models.TextField()  # Will be handled as list by serializer
+    
+    class Meta:
+        db_table = 'teams'
 
 class Activity(models.Model):
     user_email = models.EmailField()
@@ -21,6 +27,9 @@ class Activity(models.Model):
     distance_km = models.FloatField()
     date = models.DateTimeField()
     notes = models.TextField(blank=True)
+    
+    class Meta:
+        db_table = 'activities'
 
 class Leaderboard(models.Model):
     user_email = models.EmailField()
@@ -32,6 +41,9 @@ class Leaderboard(models.Model):
     total_workouts = models.IntegerField()
     rank = models.IntegerField()
     last_updated = models.DateTimeField()
+    
+    class Meta:
+        db_table = 'leaderboard'
 
 class Workout(models.Model):
     name = models.CharField(max_length=100)
@@ -40,4 +52,7 @@ class Workout(models.Model):
     difficulty = models.CharField(max_length=50)
     duration_minutes = models.IntegerField()
     calories_estimate = models.IntegerField()
-    exercises = models.JSONField(default=list)
+    exercises = models.TextField()  # Will be handled as list by serializer
+    
+    class Meta:
+        db_table = 'workouts'
